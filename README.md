@@ -1,50 +1,23 @@
-# Welcome to your Expo app 👋
+# Wallpaper App 📱
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A **React Native** application that lets users browse and download high-quality wallpapers with ease. This app features a sleek user interface that supports both light and dark themes, enhancing the user experience while exploring stunning wallpapers. 
 
-## Get started
+## Features ✨
 
-1. Install dependencies
+- **Browse and Preview**: Explore a wide collection of high-quality wallpapers with smooth transitions.
+- **Download Wallpapers**: Download wallpapers directly to your device.
+- **Light and Dark Theme Support**: Switch seamlessly between light and dark modes based on your preference or system settings.
+- **Responsive and Optimized**: Optimized for both performance and visual appeal on mobile devices.
 
-   ```bash
-   npm install
-   ```
+## Screenshots 📷
 
-2. Start the app
+*(Loading)*
 
-   ```bash
-    npx expo start
-   ```
+## Tech Stack 🛠️
 
-In the output, you'll find options to open the app in a
+- **React Native**: Framework for building cross-platform mobile applications.
+- **JavaScript/TypeScript**: Primary languages used for app logic and development.
+- **Redux**: State management for a consistent and efficient user experience.
+- **React Navigation**: For smooth and seamless navigation between screens.
+- **Expo (Optional)**: For simplifying development, testing, and deployment.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
