@@ -2,11 +2,15 @@ import { useState } from "react";
 import { Image, StyleSheet, View, Dimensions, Text } from "react-native";
 import Carousel from 'react-native-reanimated-carousel';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useWallpapers } from "@/hooks/useWallpapers";
+import { useWallpapers, Wallpaper } from "@/hooks/useWallpapers";
 import { useCarousel } from "@/hooks/useCarousel";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { SplitView } from "@/components/SplitView";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
+import { ThemedView } from "@/components/ThemedView";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { DownloadPicture } from "@/components/BottomSheet";
+import { ImageCard } from "@/components/imageCard";
 
 const TOPBAR_HEIGHT = 400;
 const { width: screenWidth } = Dimensions.get('window');
@@ -26,6 +30,8 @@ export default function Explore() {
     opacity: interpolate(yOffset, [-TOPBAR_HEIGHT, TOPBAR_HEIGHT / 2, TOPBAR_HEIGHT], [1.5, 1, 1]),
   }));
 
+  const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpaper>(null)
+
   return (
     <ThemedSafeAreaView style={styles.safeArea}>
       <Animated.View style={[styles.carouselContainer, headerAnimatedStyle]}>
@@ -33,8 +39,9 @@ export default function Explore() {
           loop
           width={screenWidth}
           data={carouselItems}
+          autoPlay={true}
           scrollAnimationDuration={1000}
-          onSnapToItem={(index) => console.log('Current index:', index)}
+          // onSnapToItem={(index) => console.log('Current index:', index)}
           renderItem={({ index }) => (
             <View style={styles.carouselItemContainer}>
               <Image source={{ uri: carouselItems[index].image }} style={styles.carouselImage} />
@@ -47,13 +54,34 @@ export default function Explore() {
           )}
         />
       </Animated.View>
-      <View style={styles.splitViewContainer}>
-        <SplitView
-          onScroll={(offset) => setYOffset(offset)}
-          wallpapers={wallpapers}
-        />
-      </View>
+
+      <ScrollView>
+      <ThemedView style = {styles.container}>   
+            <ThemedView style = {styles.innerContainer}>
+                <FlatList
+                    data={wallpapers.filter((_,index)=>index%2 ===0)}
+                        renderItem={({item}) => <View style={styles.imageContainer}><ImageCard onPress={()=>{
+                            setSelectedWallpaper(item)
+                        }}wallpaper={item} /></View>}
+                    keyExtractor={item => item.name}
+            /> 
+        </ThemedView>
+        <ThemedView style = {styles.innerContainer}>
+            <FlatList
+                data={wallpapers.filter((_,index)=>index%2 === 1)}
+                    renderItem={({item}) => <View style={styles.imageContainer}><ImageCard onPress={() => {
+                        setSelectedWallpaper(item)
+                    }}wallpaper={item} /></View>}
+                keyExtractor={item => item.name}
+            />
+            </ThemedView>
+        </ThemedView>
+        </ScrollView>
+
+        {selectedWallpaper && <DownloadPicture wallpaper={selectedWallpaper} 
+        onClose={() => setSelectedWallpaper(null)}/>}
     </ThemedSafeAreaView>
+     
   );
 }
 
@@ -90,6 +118,17 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 20,
   },
+  container: {
+    flexDirection: "row",
+    flex: 1
+  },
+  innerContainer: {
+      flex: 0.5,
+      padding:5
+  },
+  imageContainer: {
+      paddingVertical: 10,
+  }
 });
 
 

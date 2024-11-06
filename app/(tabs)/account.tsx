@@ -8,7 +8,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default function account(){
-        return <ThemedSafeAreaView style = {{flex: 1}}>  
+        return <ThemedView style = {{flex: 1}}>  
           <ScrollView style = {{flex: 1}}>
             <Header/>
             <ThemedView style = {{flex: 1}}>
@@ -17,14 +17,14 @@ export default function account(){
                 <About/>  
             </ThemedView>
             </ScrollView>  
-    </ThemedSafeAreaView>
+    </ThemedView>
 }
 
 function About() {
     return <ThemedView style={styles.margin}>
         <ThemedText style={styles.textBig}>About</ThemedText>
         <ThemedText>Theme</ThemedText>
-        <ThemedView style={{margin:10}}>
+        <ThemedView style={{margin:10,}}>
             <Pressable>
                 <ThemedText style={{margin:9,fontSize:18}}>About</ThemedText>
             </Pressable>
@@ -37,6 +37,7 @@ function About() {
             <Pressable>
                 <ThemedText style={{margin:9,fontSize:18}}>Licences</ThemedText>
             </Pressable>
+
         </ThemedView>
     </ThemedView>
 }
@@ -48,7 +49,7 @@ function ThemeSelector(){
         <ThemedView style={{flexDirection: "row",justifyContent:"space-between",margin:10}}>
             <ThemeButton title="Dark" selected={false} colorScheme={"dark"}/>
             <ThemeButton title="Light" selected={false} colorScheme={"light"}/>
-            <ThemeButton title="System" selected={false} colorScheme={null}/>
+            <ThemeButton title="Light" selected={false} colorScheme={"light"}/>
         </ThemedView>
     </ThemedView>
 }
@@ -57,7 +58,7 @@ function ThemeButton({title,selected,colorScheme}:{selected:boolean,title:string
     const theme = useColorScheme()
     return <Pressable style={{padding: 10,
         borderWidth:1,
-        borderColor: theme === 'light' ? Colors.light.icon : Colors.dark.icon,
+        borderColor: theme === 'light' ? "#000000" : "#ffffff",
         borderRadius:5, flex:0.3}} onPress={() => {
             Appearance.setColorScheme(colorScheme)
         }}>
@@ -72,15 +73,14 @@ function LoginButtons() {
             <Ionicons
                 name={'logo-google'}
                 size={18}
-                color={theme === 'light' ? Colors.light.text : Colors.dark.icon}
-                
+                color={ theme === 'light' ? "#000000" : "#ffffff" }
             />}
         />
         <AuthButton label="Sign In" icon = {
             <Ionicons
                 name={'logo-apple'}
                 size={18}
-                color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
+                color={theme === 'light' ? "#000000" : "#ffffff" }
             />}
         />
     </>
@@ -107,7 +107,7 @@ function AuthButton({label,icon}: {
       flexDirection: "row",
       borderRadius: 10,
       borderWidth: 1,
-      borderColor: theme === 'light' ? Colors.light.icon : Colors.dark.icon
+      borderColor: theme === 'light' ? "#000000" : "#ffffff" 
     }}>
         {icon}
       <ThemedText style={{
@@ -123,7 +123,8 @@ function AuthButton({label,icon}: {
         fontWeight: "600"
     },
     topbar: {
-        padding:20
+        padding:20,
+        marginTop:30
     },
     themeSelectorContainer: {
         flex: 1,

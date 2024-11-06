@@ -17,15 +17,14 @@ export default function ForYou() {
     <Tab.Navigator style={{
       flex:1,
     }} screenOptions={{
-      tabBarActiveTintColor : Colors[theme].tint,
+      tabBarActiveTintColor : theme === 'light' ? "#000000" : "#ffffff",
       tabBarStyle: {
-        backgroundColor: Colors[theme].background
+        backgroundColor: theme === 'light' ? "#ffffff": "#000000",
       },
       tabBarIndicatorStyle: {
-        backgroundColor: Colors[theme].indicator,
+        backgroundColor: "red",
         height:5
-      }
-      
+      } 
     }}>
       <Tab.Screen name="Library" component={LibraryScreen} />
       <Tab.Screen name="Liked" component={LikedScreen} />

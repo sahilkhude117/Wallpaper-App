@@ -1,16 +1,21 @@
+import { ThemedView } from '@/components/ThemedView';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { ThemeProvider } from '@react-navigation/native';
 import { Tabs } from 'expo-router';
 import { useColorScheme } from 'react-native';
+import { View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function TabLayout() {
   const theme = useColorScheme()?? 'light';
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: Colors[theme].tint, headerShown: false,
-      tabBarStyle:{
-        backgroundColor : Colors[theme].background
-      }
-     }}>
+    <Tabs screenOptions={{
+      headerShown: false,
+      tabBarActiveTintColor:"red",
+      tabBarStyle: {
+        backgroundColor: theme === 'light' ? "#ffffff": "#000000"
+      },
+      }}>
       <Tabs.Screen
         name="foryou"
         options={{
