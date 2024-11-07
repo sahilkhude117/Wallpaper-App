@@ -4,7 +4,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useWallpapers, Wallpaper } from "@/hooks/useWallpapers";
 import { useCarousel } from "@/hooks/useCarousel";
-import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { interpolate, useAnimatedRef, useAnimatedScrollHandler, useAnimatedStyle, useScrollViewOffset, useSharedValue } from "react-native-reanimated";
 import { SplitView } from "@/components/SplitView";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import { ThemedView } from "@/components/ThemedView";
@@ -12,28 +12,49 @@ import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { DownloadPicture } from "@/components/BottomSheet";
 import { ImageCard } from "@/components/imageCard";
 
-const TOPBAR_HEIGHT = 400;
+const HEADER_HEIGHT = 400;
 const { width: screenWidth } = Dimensions.get('window');
 
 export default function Explore() {
   const wallpapers = useWallpapers();
   const carouselItems = useCarousel();
-  const [yOffset, setYOffset] = useState(0);
+  const yOffset = useSharedValue(0);
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const scrollOffset = useScrollViewOffset(scrollRef);
 
-  const headerAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{
-      scale: interpolate(yOffset, [-TOPBAR_HEIGHT, 0, TOPBAR_HEIGHT], [1.5, 1, 1]),
-    }],
-  }));
+
+  const headerAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: interpolate(
+            scrollOffset.value,
+            [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
+            [-HEADER_HEIGHT / 2, 0, HEADER_HEIGHT * 0.75]
+          ),
+        },
+        {
+          scale: interpolate(scrollOffset.value, [-HEADER_HEIGHT, 0, HEADER_HEIGHT], [2, 1, 1]),
+        },
+      ],
+    };
+  });
+  
+
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    yOffset.value = event.contentOffset.y;
+  });
+  
 
   const textAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(yOffset, [-TOPBAR_HEIGHT, TOPBAR_HEIGHT / 2, TOPBAR_HEIGHT], [1.5, 1, 1]),
+    opacity: interpolate(yOffset.value, [-HEADER_HEIGHT, HEADER_HEIGHT / 2, HEADER_HEIGHT], [1.5, 1, 1]),
   }));
 
   const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpaper>(null)
 
   return (
     <ThemedSafeAreaView style={styles.safeArea}>
+      <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
       <Animated.View style={[styles.carouselContainer, headerAnimatedStyle]}>
         <Carousel
           loop
@@ -55,7 +76,7 @@ export default function Explore() {
         />
       </Animated.View>
 
-      <ScrollView>
+      <Animated.ScrollView>
       <ThemedView style = {styles.container}>   
             <ThemedView style = {styles.innerContainer}>
                 <FlatList
@@ -76,12 +97,12 @@ export default function Explore() {
             />
             </ThemedView>
         </ThemedView>
-        </ScrollView>
+        </Animated.ScrollView>
+        </Animated.ScrollView>
 
         {selectedWallpaper && <DownloadPicture wallpaper={selectedWallpaper} 
         onClose={() => setSelectedWallpaper(null)}/>}
     </ThemedSafeAreaView>
-     
   );
 }
 
@@ -90,26 +111,26 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   carouselContainer: {
-    height: TOPBAR_HEIGHT,
+    height: HEADER_HEIGHT,
   },
   carouselItemContainer: {
     flex: 1,
     justifyContent: 'center',
   },
   carouselImage: {
-    height: TOPBAR_HEIGHT,
+    height: HEADER_HEIGHT,
     width: '100%',
   },
   gradientOverlay: {
     position: "absolute",
     bottom: 0,
     width: "100%",
-    height: TOPBAR_HEIGHT / 2,
+    height: HEADER_HEIGHT / 2,
     zIndex: 10,
   },
   carouselText: {
     color: "white",
-    paddingTop: TOPBAR_HEIGHT / 3,
+    paddingTop: HEADER_HEIGHT / 3,
     textAlign: "center",
     fontSize: 20,
     fontWeight: "600",
