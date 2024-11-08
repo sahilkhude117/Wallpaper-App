@@ -35,27 +35,27 @@ export const DownloadPicture = ({onClose, wallpaper}: {
         handleIndicatorStyle = {{display: "none"}}
         handleStyle = {{ display: "none"}}
       >
-        <BottomSheetView style={styles.contentContainer}>
-          <ThemedView style={{borderRadius: 15}}>
+        <BottomSheetView style={{flex : 1}}>
+          <ThemedView style={{borderTopLeftRadius: 15,borderTopRightRadius:15,flex:1}}>
         <Image style={styles.image} source={{ uri: wallpaper.url }} />
         <View style={styles.topbar}>
         <Ionicons
             onPress={onClose}
             name={'close'}
             size={18}
-            color={theme === 'light' ? Colors.light.icon : Colors.dark.text}
+            color={theme === 'light' ? "#000000" : "#ffffff"}
         />
         <View style={styles.topbarInner}>
         <Ionicons
             name={'heart'}
             size={18}
-            color={theme === 'light' ? Colors.light.icon : Colors.dark.text}
+            color={theme === 'light' ? "#000000" : "#ffffff"}
             
         />
         <Ionicons
             name={'share'}
             size={18}
-            color={theme === 'light' ? Colors.light.icon : Colors.dark.text}
+            color={theme === 'light' ? "#000000" : "#ffffff"}
             style={{
               paddingLeft: 4,
               paddingTop: -3
@@ -99,30 +99,29 @@ function DownloadButton({ url }:{ url: string }) {
       
     }}
     style={{
-    backgroundColor:"black",
-    padding: 10,
+    padding: 10, 
+    backgroundColor:theme === 'light' ? "#000000" : "#ffffff",
     marginHorizontal:40,
     marginVertical:20,
     justifyContent: "center",
     flexDirection: "row",
     borderWidth:1,
-    borderColor: theme === 'light' ? Colors.light.icon : Colors.dark.icon,
+    borderColor: theme === 'light' ? "#000000" : "#ffffff",
     borderRadius:10,
   }}>
     <Ionicons
       name={'download'}
       size={18}
-      color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
+      color={theme === 'light' ? "#ffffff" : "#000000"}
       style={{
-        paddingLeft: 4,
-        paddingTop: -3
+        alignContent:'center'
          }}
     />
-    <Text style={{
+    <ThemedText style={{
        fontSize:20,
-       color: "white",
+       color: theme === 'light' ? "#ffffff" : "#000000" ,
        fontWeight: "600"
-    }}>Download</Text>
+    }}>Download</ThemedText>
   </Pressable>
 }
 

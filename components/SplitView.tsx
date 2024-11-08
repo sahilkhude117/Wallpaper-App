@@ -10,7 +10,6 @@ import { finishScreenTransition } from "react-native-reanimated"
 export function SplitView({wallpapers, onScroll}: {
     wallpapers :Wallpaper[];
     onScroll?: (yOffSet: number) => void;
-   
 }) {
     const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpaper>(null)
     return <>
