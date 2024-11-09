@@ -85,6 +85,7 @@ export default function Explore() {
                             setSelectedWallpaper(item)
                         }}wallpaper={item} /></View>}
                     keyExtractor={item => item.name}
+                    horizontal={true}
             /> 
         </ThemedView>
         <ThemedView style = {styles.innerContainer}>
@@ -94,6 +95,7 @@ export default function Explore() {
                         setSelectedWallpaper(item)
                     }}wallpaper={item} /></View>}
                 keyExtractor={item => item.name}
+                horizontal={true}
             />
             </ThemedView>
         </ThemedView>
