@@ -23,6 +23,7 @@ export function SplitView({wallpapers, onScroll}: {
                             setSelectedWallpaper(item)
                         }}wallpaper={item} /></View>}
                     keyExtractor={item => item.name}
+                    horizontal={true}
             /> 
         </ThemedView>
         <ThemedView style = {styles.innerContainer}>
@@ -32,6 +33,7 @@ export function SplitView({wallpapers, onScroll}: {
                         setSelectedWallpaper(item)
                     }}wallpaper={item} /></View>}
                 keyExtractor={item => item.name}
+                horizontal={true}
             />
             </ThemedView>
         </ThemedView>
