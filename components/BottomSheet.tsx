@@ -36,7 +36,7 @@ export const DownloadPicture = ({onClose, wallpaper}: {
         handleStyle = {{ display: "none"}}
       >
         <BottomSheetView style={{flex : 1}}>
-          <ThemedView style={{borderTopLeftRadius: 15,borderTopRightRadius:15,flex:1}}>
+          <ThemedView style={{borderTopLeftRadius: 15,borderTopRightRadius:15}}>
         <Image style={styles.image} source={{ uri: wallpaper.url }} />
         <View style={styles.topbar}>
         <Ionicons
@@ -129,14 +129,13 @@ function DownloadButton({ url }:{ url: string }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
   },
   contentContainer: {
     flex: 1,
-    
   },
   image: {
     height: "70%",
+    width: "100%",
     borderRadius: 15
   },
   topbar: {
