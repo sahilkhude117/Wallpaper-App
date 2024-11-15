@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Image, StyleSheet, View, Dimensions, Text } from "react-native";
+import { Image, StyleSheet, View, Dimensions, Text, SectionList, useColorScheme } from "react-native";
 import Carousel from 'react-native-reanimated-carousel';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useWallpapers, Wallpaper } from "@/hooks/useWallpapers";
@@ -11,6 +11,10 @@ import { ThemedView } from "@/components/ThemedView";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { DownloadPicture } from "@/components/BottomSheet";
 import { ImageCard } from "@/components/imageCard";
+import MasonryList from "react-native-masonry-list";
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
+import { ThemedText } from "@/components/ThemedText";
+import { MasonryListView } from "@/components/MasonaryListView";
 
 const HEADER_HEIGHT = 400;
 const { width: screenWidth } = Dimensions.get('window');
@@ -21,8 +25,7 @@ export default function Explore() {
   const yOffset = useSharedValue(0);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
-
-
+ 
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -39,18 +42,14 @@ export default function Explore() {
       ],
     };
   });
-  
-
-  const scrollHandler = useAnimatedScrollHandler((event) => {
-    yOffset.value = event.contentOffset.y;
-  });
-  
 
   const textAnimatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(yOffset.value, [-HEADER_HEIGHT, HEADER_HEIGHT / 2, HEADER_HEIGHT], [1.5, 1, 1]),
   }));
 
   const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpaper>(null)
+
+  const theme = useColorScheme();
 
   return (
     <ThemedSafeAreaView style={styles.safeArea}>
@@ -75,38 +74,28 @@ export default function Explore() {
           )}
         />
       </Animated.View>
-
-      <Animated.ScrollView>
-      <ThemedView style = {styles.container}>   
-            <ThemedView style = {styles.innerContainer}>
-                <FlatList
-                    data={wallpapers.filter((_,index)=>index%2 ===0)}
-                        renderItem={({item}) => <View style={styles.imageContainer}><ImageCard onPress={()=>{
-                            setSelectedWallpaper(item)
-                        }}wallpaper={item} /></View>}
-                    keyExtractor={item => item.name}
-                    horizontal={true}
-            /> 
-        </ThemedView>
-        <ThemedView style = {styles.innerContainer}>
-            <FlatList
-                data={wallpapers.filter((_,index)=>index%2 === 1)}
-                    renderItem={({item}) => <View style={styles.imageContainer}><ImageCard onPress={() => {
-                        setSelectedWallpaper(item)
-                    }}wallpaper={item} /></View>}
-                keyExtractor={item => item.name}
-                horizontal={true}
-            />
-            </ThemedView>
-        </ThemedView>
-        </Animated.ScrollView>
-        </Animated.ScrollView>
-
-        {selectedWallpaper && <DownloadPicture wallpaper={selectedWallpaper} 
-        onClose={() => setSelectedWallpaper(null)}/>}
+      <ThemedView>
+                <MasonryList
+                    images={wallpapers}
+                    columns={2} 
+                    spacing={3} 
+                    backgroundColor= {theme === 'light' ?"#ffffff":"#000000"}
+                    imageContainerStyle={{
+                      borderRadius:15
+                    }}
+                    onPressImage={(item, index) => {
+                        setSelectedWallpaper(item);
+                    }}
+                />
+            </ThemedView> 
+      </Animated.ScrollView>
+       {selectedWallpaper && <DownloadPicture wallpaper={selectedWallpaper} 
+         onClose={() => setSelectedWallpaper(null)}/>}
     </ThemedSafeAreaView>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   safeArea: {

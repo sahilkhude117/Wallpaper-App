@@ -1,3 +1,4 @@
+import { MasonryListView } from '@/components/MasonaryListView';
 import { SplitView } from '@/components/SplitView';
 import { ThemedSafeAreaView } from '@/components/ThemedSafeAreaView';
 import { ThemedView } from '@/components/ThemedView';
@@ -37,21 +38,21 @@ export default function ForYou() {
 function LibraryScreen() {
   const wallpapers = useLibraryWallpapers();
   return <ThemedView style={styles.container}>
-      <SplitView wallpapers={wallpapers}/>
+      <MasonryListView wallpapers={wallpapers}/>
   </ThemedView>
 }
 
 function LikedScreen() {
   const wallpapers = useLikedWallpapers();
   return <ThemedView style={styles.container}>
-      <SplitView wallpapers={wallpapers}/>
+      <MasonryListView wallpapers={wallpapers}/>
   </ThemedView>
 }
 
 function SuggestedScreen() {
   const wallpapers = useSuggestedWallpapers();
   return <ThemedView style={styles.container}>
-      <SplitView wallpapers={wallpapers}/>
+      <MasonryListView wallpapers={wallpapers}/>
   </ThemedView>
 }
 

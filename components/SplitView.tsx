@@ -8,34 +8,33 @@ import Animated,{} from "react-native-reanimated";
 import { finishScreenTransition } from "react-native-reanimated"
 
 
-export function SplitView({wallpapers, onScroll}: {
+export function SplitView({wallpapers}: {
     wallpapers :Wallpaper[];
-    onScroll?: (yOffSet: number) => void;
 }) {
     const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpaper>(null)
     return <>
         <Animated.ScrollView>
-      <ThemedView style = {styles.container}>   
-            <ThemedView style = {styles.innerContainer}>
-                <FlatList
-                    data={wallpapers.filter((_,index)=>index%2 ===0)}
-                        renderItem={({item}) => <View style={styles.imageContainer}><ImageCard onPress={()=>{
-                            setSelectedWallpaper(item)
-                        }}wallpaper={item} /></View>}
-                    keyExtractor={item => item.name}
-                    horizontal={true}
-            /> 
-        </ThemedView>
-        <ThemedView style = {styles.innerContainer}>
-            <FlatList
-                data={wallpapers.filter((_,index)=>index%2 === 1)}
-                    renderItem={({item}) => <View style={styles.imageContainer}><ImageCard onPress={() => {
-                        setSelectedWallpaper(item)
-                    }}wallpaper={item} /></View>}
-                keyExtractor={item => item.name}
-                horizontal={true}
-            />
-            </ThemedView>
+            <ThemedView style = {styles.container}>   
+                    <ThemedView style = {styles.innerContainer}>
+                        <FlatList
+                            data={wallpapers.filter((_,index)=>index%2 ===0)}
+                            renderItem={({item}) => <View style={styles.imageContainer}><ImageCard onPress={()=>{
+                                    setSelectedWallpaper(item)
+                                }}wallpaper={item} /></View>}
+                            keyExtractor={item => item.name}
+                            horizontal={true}
+                    /> 
+                </ThemedView>
+                <ThemedView style = {styles.innerContainer}>
+                    <FlatList
+                        data={wallpapers.filter((_,index)=>index%2 === 1)}
+                        renderItem={({item}) => <View style={styles.imageContainer}><ImageCard onPress={() => {
+                                setSelectedWallpaper(item)
+                            }}wallpaper={item} /></View>}
+                        keyExtractor={item => item.name}
+                        horizontal={true}
+                    />
+                    </ThemedView>
         </ThemedView>
         </Animated.ScrollView>
         {selectedWallpaper && <DownloadPicture wallpaper={selectedWallpaper} onClose={() => setSelectedWallpaper(null)}/>}      
